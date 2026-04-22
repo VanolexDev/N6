@@ -6,5 +6,8 @@ data class Config(
     val dbHost: String,
     val dbDatabase: String,
     val dbUsername: String,
-    val dbPassword: String
+    val dbPassword: String,
+    val prime: Int,
+    val inverse: Int,
+    val salt: Int,
 )

@@ -1,16 +1,12 @@
 package net.vanolex
 
-val PRIME = 12409561
-val INV = 5997929
-val SALT = 0x7E26DE
-
 val b64Charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
 val b64Lookup = b64Charset.withIndex().associate { it.value to it.index }
 
 fun idToB64URL(id: Int): String {
-    val stepped = (id* PRIME) and 0xFFFFFF
+    val stepped = (id* config.prime) and 0xFFFFFF
 
-    val salted = stepped xor SALT
+    val salted = stepped xor config.salt
 
     val i1 = salted and 0x3F
     val i2 = (salted shr 6) and 0x3F
@@ -28,7 +24,7 @@ fun b64URLToId(b64: String): Int {
 
     val salted = v1 or (v2 shl 6) or (v3 shl 12) or (v4 shl 18)
 
-    val stepped = salted xor SALT
+    val stepped = salted xor config.salt
 
-    return (stepped * INV) and 0xFFFFFF
+    return (stepped * config.inverse) and 0xFFFFFF
 }

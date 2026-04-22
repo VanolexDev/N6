@@ -15,8 +15,7 @@ import java.sql.DriverManager
 import java.sql.SQLException
 
 fun main() {
-
-    config = ConfigFactory.load().extract()
+    config = ConfigFactory.parseFile(File("application.conf")).extract()
 
     mysqlConnection = DriverManager.getConnection("jdbc:mariadb://${config.dbHost}:3306/${config.dbDatabase}", config.dbUsername, config.dbPassword)
 
@@ -44,42 +43,42 @@ fun Application.module() {
                 "" -> {
                     call.respondBytes(
                         contentType = ContentType.Text.Html,
-                        bytes = File("assets/index.html").readBytes()
+                        bytes = this::class.java.classLoader.getResourceAsStream("assets/index.html")?.readBytes() ?: byteArrayOf()
                     )
                 }
 
                 "styles.css" -> {
                     call.respondBytes(
                         contentType = ContentType.Text.CSS,
-                        bytes = File("assets/styles.css").readBytes()
+                        bytes = this::class.java.classLoader.getResourceAsStream("assets/styles.css")?.readBytes() ?: byteArrayOf()
                     )
                 }
 
                 "script.js" -> {
                     call.respondBytes(
                         contentType = ContentType.Text.JavaScript,
-                        bytes = File("assets/script.js").readBytes()
+                        bytes = this::class.java.classLoader.getResourceAsStream("assets/script.js")?.readBytes() ?: byteArrayOf()
                     )
                 }
 
                 "favicon.ico" -> {
                     call.respondBytes(
                         contentType = ContentType.Image.XIcon,
-                        bytes = File("assets/favicon.ico").readBytes()
+                        bytes = this::class.java.classLoader.getResourceAsStream("assets/favicon.ico")?.readBytes() ?: byteArrayOf()
                     )
                 }
 
                 "check.svg" -> {
                     call.respondBytes(
                         contentType = ContentType.Image.SVG,
-                        bytes = File("assets/check.svg").readBytes()
+                        bytes = this::class.java.classLoader.getResourceAsStream("assets/check.svg")?.readBytes() ?: byteArrayOf()
                     )
                 }
 
                 "copy.svg" -> {
                     call.respondBytes(
                         contentType = ContentType.Image.SVG,
-                        bytes = File("assets/copy.svg").readBytes()
+                        bytes = this::class.java.classLoader.getResourceAsStream("assets/copy.svg")?.readBytes() ?: byteArrayOf()
                     )
                 }
 
@@ -92,7 +91,7 @@ fun Application.module() {
                     if (!isValidCode(path)) {
                         call.respondBytes(
                             contentType = ContentType.Text.Html,
-                            bytes = File("assets/404.html").readBytes()
+                            bytes = this::class.java.classLoader.getResourceAsStream("assets/404.html")?.readBytes() ?: byteArrayOf()
                         )
                         return@get
                     }
@@ -102,7 +101,7 @@ fun Application.module() {
                     if (link == null) {
                         call.respondBytes(
                             contentType = ContentType.Text.Html,
-                            bytes = File("assets/404.html").readBytes()
+                            bytes = this::class.java.classLoader.getResourceAsStream("assets/404.html")?.readBytes() ?: byteArrayOf()
                         )
                         return@get
                     }
