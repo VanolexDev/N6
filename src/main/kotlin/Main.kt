@@ -17,7 +17,9 @@ import java.sql.SQLException
 fun main() {
     config = ConfigFactory.parseFile(File("application.conf")).extract()
 
-    mysqlConnection = DriverManager.getConnection("jdbc:mariadb://${config.dbHost}:3306/${config.dbDatabase}", config.dbUsername, config.dbPassword)
+    connectionURL = "jdbc:mariadb://${config.dbHost}:3306/${config.dbDatabase}"
+
+    mysqlConnection = DriverManager.getConnection(connectionURL, config.dbUsername, config.dbPassword)
 
     server = embeddedServer(
         CIO,

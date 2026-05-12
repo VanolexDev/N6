@@ -38,6 +38,6 @@ fun checkConnection() {
         mysqlConnection.prepareStatement("DO 0").execute()
     } catch (e: Exception) {
         mysqlConnection.close()
-        mysqlConnection = DriverManager.getConnection("jdbc:mysql://${config.dbHost}/${config.dbDatabase}", config.dbUsername, config.dbPassword)
+        mysqlConnection = DriverManager.getConnection(connectionURL, config.dbUsername, config.dbPassword)
     }
 }

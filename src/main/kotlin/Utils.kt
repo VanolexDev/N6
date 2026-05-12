@@ -11,6 +11,7 @@ val requestMap: MutableMap<String, Long> = mutableMapOf()
 val qrMap: MutableMap<String, ByteArray> = mutableMapOf()
 
 lateinit var config: Config
+lateinit var connectionURL: String
 lateinit var mysqlConnection: Connection
 lateinit var server: CIOApplicationEngine
 
